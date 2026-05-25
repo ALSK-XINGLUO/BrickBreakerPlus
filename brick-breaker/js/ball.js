@@ -72,9 +72,24 @@ const Ball = {
   },
 
   draw(ctx) {
+    // Glow
+    ctx.shadowColor = 'rgba(99, 102, 241, 0.4)';
+    ctx.shadowBlur = 12;
+    // Ball body
     ctx.beginPath();
     ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-    ctx.fillStyle = '#fff';
+    const gradient = ctx.createRadialGradient(this.x - 2, this.y - 2, 1, this.x, this.y, this.radius);
+    gradient.addColorStop(0, '#a5b4fc');
+    gradient.addColorStop(0.6, '#818cf8');
+    gradient.addColorStop(1, '#6366f1');
+    ctx.fillStyle = gradient;
+    ctx.fill();
+    ctx.closePath();
+    ctx.shadowBlur = 0;
+    // Highlight
+    ctx.beginPath();
+    ctx.arc(this.x - 2, this.y - 3, this.radius * 0.35, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
     ctx.fill();
     ctx.closePath();
   }

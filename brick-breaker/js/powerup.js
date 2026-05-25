@@ -3,12 +3,12 @@ const Powerup = {
   items: [],         // active falling powerups
   activeEffects: {}, // currently active effects
   types: [
-    { id: 'wide',     color: '#ffd43b', symbol: '⇔', label: 'Wide Paddle', duration: 10000 },
-    { id: 'multi',    color: '#ff6b6b', symbol: '✦', label: 'Multi Ball',  duration: 0     },
-    { id: 'pierce',   color: '#69db7c', symbol: '⚡', label: 'Pierce Ball', duration: 12000 },
-    { id: 'slow',     color: '#4dabf7', symbol: '◀', label: 'Slow Down',   duration: 8000  },
-    { id: 'life',     color: '#ffa94d', symbol: '❤', label: 'Extra Life',  duration: 0     },
-    { id: 'shrink',   color: '#ff6b6b', symbol: '▼', label: 'Shrink Paddle', duration: 0   },
+    { id: 'wide',     color: '#fbbf24', symbol: '⇔', label: 'Wide Paddle', duration: 10000 },
+    { id: 'multi',    color: '#f87171', symbol: '✦', label: 'Multi Ball',  duration: 0     },
+    { id: 'pierce',   color: '#34d399', symbol: '⚡', label: 'Pierce Ball', duration: 12000 },
+    { id: 'slow',     color: '#60a5fa', symbol: '◀', label: 'Slow Down',   duration: 8000  },
+    { id: 'life',     color: '#fb923c', symbol: '❤', label: 'Extra Life',  duration: 0     },
+    { id: 'shrink',   color: '#f87171', symbol: '▼', label: 'Shrink Paddle', duration: 0   },
   ],
 
   init() {

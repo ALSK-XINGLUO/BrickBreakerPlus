@@ -9,15 +9,15 @@ const Bricks = {
   offsetLeft: 0,
   bricks: [],
   colors: [
-    '#ff6b6b', // red
-    '#ffa94d', // orange
-    '#ffd43b', // yellow
-    '#69db7c', // green
-    '#4dabf7', // blue
-    '#9775fa'  // purple
+    '#f87171', // pastel red
+    '#fb923c', // pastel orange
+    '#fbbf24', // pastel yellow
+    '#34d399', // pastel green
+    '#60a5fa', // pastel blue
+    '#a78bfa'  // pastel purple
   ],
-  colorTough: '#c92a2a',
-  colorIndestructible: '#495057',
+  colorTough: '#dc2626',
+  colorIndestructible: '#94a3b8',
 
   // Load a level configuration
   loadLevel(levelConfig, canvasWidth) {
