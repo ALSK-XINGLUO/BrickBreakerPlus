@@ -8,7 +8,7 @@ const Game = {
   lives: 3,
   level: 1,
   maxLevel: Levels.length,
-  state: 'start', // 'start', 'levelselect', 'playing', 'paused', 'gameover', 'levelclear', 'gameclear'
+  state: 'start', // 'start', 'mainmenu', 'levelselect', 'playing', 'paused', 'gameover', 'levelclear', 'gameclear', 'about'
   keys: {},
   animationId: null,
   lastTime: 0,
@@ -69,7 +69,22 @@ const Game = {
       const mouseY = (e.clientY - rect.top) * scaleY;
 
       if (this.state === 'start') {
-        this.state = 'levelselect';
+        this.state = 'mainmenu';
+      } else if (this.state === 'mainmenu') {
+        // Check which button was clicked
+        // "开始闯关" button
+        if (mouseX >= 240 && mouseX <= 560 && mouseY >= 260 && mouseY <= 310) {
+          this.resetGame();
+          this.startLevel(1);
+        }
+        // "选择关卡" button
+        if (mouseX >= 240 && mouseX <= 560 && mouseY >= 330 && mouseY <= 380) {
+          this.state = 'levelselect';
+        }
+        // "关于我们" button
+        if (mouseX >= 240 && mouseX <= 560 && mouseY >= 400 && mouseY <= 450) {
+          this.state = 'about';
+        }
       } else if (this.state === 'levelselect') {
         const selected = this.getLevelAtPosition(mouseX, mouseY);
         if (selected !== null) {
@@ -79,8 +94,10 @@ const Game = {
         Ball.launch();
       } else if (this.state === 'gameover') {
         this.state = 'levelselect';
+      } else if (this.state === 'about') {
+        this.state = 'mainmenu';
       } else if (this.state === 'gameclear') {
-        this.state = 'start';
+        this.state = 'mainmenu';
         this.resetGame();
       } else if (this.state === 'levelclear') {
         const nextLevel = this.level;
@@ -309,7 +326,14 @@ const Game = {
     // State-specific rendering
     switch (this.state) {
       case 'start':
-        this.drawStartScreen(ctx);
+        this.drawSplash(ctx);
+        break;
+      case 'mainmenu':
+        this.drawMainMenu(ctx);
+        break;
+      case 'about':
+        this.drawPlaying(ctx);
+        this.drawAbout(ctx);
         break;
       case 'levelselect':
         this.drawLevelSelect(ctx);
@@ -391,29 +415,159 @@ const Game = {
     ctx.fillText(`Lives: ${'❤ '.repeat(this.lives)}`, this.canvasWidth - 15, 30);
   },
 
-  drawStartScreen(ctx) {
-    // Title
+  drawSplash(ctx) {
+    // Animated splash that fades to main menu
     ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
     ctx.font = 'bold 48px "Segoe UI", Arial, sans-serif';
     ctx.textAlign = 'center';
-    ctx.fillText('BRICK BREAKER', this.canvasWidth / 2, 180);
-
-    ctx.font = '20px "Segoe UI", Arial, sans-serif';
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
-    ctx.fillText(`High Score: ${Storage.getHighScore()}`, this.canvasWidth / 2, 230);
-
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
-    ctx.font = 'bold 24px "Segoe UI", Arial, sans-serif';
-    ctx.fillText('Click to Start', this.canvasWidth / 2, 310);
+    ctx.fillText('BRICK BREAKER', this.canvasWidth / 2, 260);
 
     ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
-    ctx.font = '16px "Segoe UI", Arial, sans-serif';
-    ctx.fillText('← → or A/D to move   |   Space to launch   |   P to pause', this.canvasWidth / 2, 370);
+    ctx.font = '18px "Segoe UI", Arial, sans-serif';
+    ctx.fillText('Click anywhere to continue', this.canvasWidth / 2, 340);
+  },
 
-    // Level count
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
-    ctx.font = '14px "Segoe UI", Arial, sans-serif';
-    ctx.fillText(`${this.maxLevel} Levels · Powerups · High Scores`, this.canvasWidth / 2, 420);
+  drawMainMenu(ctx) {
+    // Title
+    const gradient = ctx.createLinearGradient(this.canvasWidth / 2 - 200, 0, this.canvasWidth / 2 + 200, 0);
+    gradient.addColorStop(0, '#ff6b6b');
+    gradient.addColorStop(0.5, '#ffd43b');
+    gradient.addColorStop(1, '#69db7c');
+    ctx.fillStyle = gradient;
+    ctx.font = 'bold 52px "Segoe UI", Arial, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('BRICK BREAKER', this.canvasWidth / 2, 140);
+
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
+    ctx.font = '16px "Segoe UI", Arial, sans-serif';
+    ctx.fillText(`High Score: ${Storage.getHighScore()}`, this.canvasWidth / 2, 175);
+
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
+    ctx.font = '13px "Segoe UI", Arial, sans-serif';
+    ctx.fillText(`12 Levels · 6 Powerups · ${this.maxLevel} Levels Total`, this.canvasWidth / 2, 200);
+
+    // Draw buttons
+    const buttons = [
+      { label: '开始闯关', y: 260, color: '#69db7c' },
+      { label: '选择关卡', y: 330, color: '#4dabf7' },
+      { label: '关于我们', y: 400, color: '#9775fa' },
+    ];
+
+    for (const btn of buttons) {
+      const x = 240;
+      const w = 320;
+      const h = 50;
+      const isHovered = this.mouseX >= x && this.mouseX <= x + w && this.mouseY >= btn.y && this.mouseY <= btn.y + h;
+
+      ctx.shadowColor = isHovered ? btn.color : 'rgba(0,0,0,0.3)';
+      ctx.shadowBlur = isHovered ? 20 : 8;
+
+      ctx.fillStyle = isHovered ? btn.color : 'rgba(255, 255, 255, 0.08)';
+      ctx.beginPath();
+      ctx.roundRect(x, btn.y, w, h, 10);
+      ctx.fill();
+
+      ctx.shadowBlur = 0;
+
+      if (isHovered) {
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.5)';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.roundRect(x, btn.y, w, h, 10);
+        ctx.stroke();
+      } else {
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.roundRect(x, btn.y, w, h, 10);
+        ctx.stroke();
+      }
+
+      ctx.fillStyle = isHovered ? '#1a1a2e' : 'rgba(255, 255, 255, 0.8)';
+      ctx.font = 'bold 20px "Segoe UI", Arial, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(btn.label, this.canvasWidth / 2, btn.y + h / 2);
+    }
+
+    ctx.textBaseline = 'alphabetic';
+
+    // Controls hint
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.25)';
+    ctx.font = '13px "Segoe UI", Arial, sans-serif';
+    ctx.fillText('← → A/D: Move  |  Space: Launch  |  P: Pause', this.canvasWidth / 2, 490);
+  },
+
+  drawAbout(ctx) {
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.65)';
+    ctx.fillRect(0, 0, this.canvasWidth, this.canvasHeight);
+
+    // Title
+    ctx.fillStyle = '#9775fa';
+    ctx.font = 'bold 36px "Segoe UI", Arial, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('About', this.canvasWidth / 2, 130);
+
+    // Content box
+    const boxX = 120;
+    const boxY = 160;
+    const boxW = 560;
+    const boxH = 300;
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.06)';
+    ctx.beginPath();
+    ctx.roundRect(boxX, boxY, boxW, boxH, 12);
+    ctx.fill();
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.roundRect(boxX, boxY, boxW, boxH, 12);
+    ctx.stroke();
+
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+    ctx.font = '18px "Segoe UI", Arial, sans-serif';
+    ctx.textAlign = 'center';
+    const aboutText = [
+      'Brick Breaker Plus',
+      '',
+      'A modern take on the classic Breakout game.',
+      'Built with vanilla HTML5 Canvas + JavaScript.',
+      '',
+      'Features:',
+      '• 12 unique levels with progressive difficulty',
+      '• 6 powerup types: Wide, Multi Ball, Pierce,',
+      '  Slow, Extra Life & Shrink',
+      '• Tough & Indestructible brick types',
+      '• Particle effects & visual polish',
+      '• Local high score persistence',
+      '',
+      'Project by ALSK · 2025',
+    ];
+
+    let y = 205;
+    for (const line of aboutText) {
+      if (line.startsWith('Brick Breaker')) {
+        ctx.fillStyle = '#9775fa';
+        ctx.font = 'bold 22px "Segoe UI", Arial, sans-serif';
+      } else if (line.startsWith('Project')) {
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
+        ctx.font = '14px "Segoe UI", Arial, sans-serif';
+      } else if (line === '') {
+        y += 5;
+        ctx.font = '18px "Segoe UI", Arial, sans-serif';
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+        y += 16;
+        continue;
+      } else {
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+        ctx.font = '16px "Segoe UI", Arial, sans-serif';
+      }
+      ctx.fillText(line, this.canvasWidth / 2, y);
+      y += 24;
+    }
+
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
+    ctx.font = '16px "Segoe UI", Arial, sans-serif';
+    ctx.fillText('Click to return', this.canvasWidth / 2, 510);
   },
 
   drawLevelSelect(ctx) {
