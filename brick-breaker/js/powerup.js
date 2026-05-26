@@ -32,8 +32,8 @@ const Powerup = {
       type: type,
       x: brickX + brickWidth / 2,
       y: brickY,
-      width: 24,
-      height: 16,
+      width: 36,
+      height: 24,
       speed: 2,
       active: true
     };
@@ -48,8 +48,8 @@ const Powerup = {
       type: shrinkType,
       x: brickX + brickWidth / 2,
       y: brickY,
-      width: 24,
-      height: 16,
+      width: 36,
+      height: 24,
       speed: 2.5,
       active: true
     };
@@ -208,7 +208,7 @@ const Powerup = {
 
       // Symbol
       ctx.fillStyle = '#1a1a2e';
-      ctx.font = 'bold 12px Arial';
+      ctx.font = 'bold 18px Arial';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
       ctx.fillText(t.symbol, item.x, y + item.height / 2);
@@ -298,8 +298,24 @@ const Balls = {
     for (const b of this.list) {
       ctx.beginPath();
       ctx.arc(b.x, b.y, b.radius || 8, 0, Math.PI * 2);
-      ctx.fillStyle = b.piercing ? '#69db7c' : '#fff';
-      ctx.fill();
+      if (b.piercing) {
+        ctx.fillStyle = '#69db7c';
+        ctx.fill();
+      } else {
+        // Same gradient as main ball
+        const gradient = ctx.createRadialGradient(b.x, b.y, 1, b.x, b.y, b.radius || 8);
+        gradient.addColorStop(0, '#a5b4fc');
+        gradient.addColorStop(0.6, '#818cf8');
+        gradient.addColorStop(1, '#6366f1');
+        ctx.fillStyle = gradient;
+        ctx.fill();
+        ctx.closePath();
+        // Highlight
+        ctx.beginPath();
+        ctx.arc(b.x - 2, b.y - 3, (b.radius || 8) * 0.35, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
+        ctx.fill();
+      }
       ctx.closePath();
     }
   },

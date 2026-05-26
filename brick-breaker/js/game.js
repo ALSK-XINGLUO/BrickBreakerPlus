@@ -298,40 +298,29 @@ const Game = {
 
     // Update main ball
     const ballLost = Ball.update(this.canvasWidth, this.canvasHeight, Paddle);
-    if (ballLost) {
-      // Check if there are multi-balls
-      if (Balls.list.length > 0) {
-        // Main ball lost but multi-balls remain
-        Ball.reset(this.canvasWidth, this.canvasHeight);
-      } else {
-        Audio.loseBall();
-        this.lives--;
-        if (this.lives <= 0) {
-          this.state = 'gameover';
-          Storage.setHighScore(this.score);
-          Audio.gameOver();
-        } else {
-          Ball.reset(this.canvasWidth, this.canvasHeight);
-        }
-      }
-    }
 
     // Update multi-balls
-    if (Balls.list.length > 0) {
-      const allLost = Balls.update(this.canvasWidth, this.canvasHeight, Paddle);
-      if (allLost && ballLost) {
-        // All balls lost
-        Audio.loseBall();
-        this.lives--;
-        if (this.lives <= 0) {
-          this.state = 'gameover';
-          Storage.setHighScore(this.score);
-          Audio.gameOver();
-        } else {
-          Ball.reset(this.canvasWidth, this.canvasHeight);
-          Balls.clear();
-        }
+    const multiExists = Balls.list.length > 0;
+    let allBallsLost = false;
+    if (multiExists) {
+      allBallsLost = Balls.update(this.canvasWidth, this.canvasHeight, Paddle);
+    }
+
+    // Only lose life when NO balls remain on screen
+    if (ballLost && (multiExists ? allBallsLost : true)) {
+      Audio.loseBall();
+      this.lives--;
+      if (this.lives <= 0) {
+        this.state = 'gameover';
+        Storage.setHighScore(this.score);
+        Audio.gameOver();
+      } else {
+        Ball.reset(this.canvasWidth, this.canvasHeight);
+        Balls.clear();
       }
+    } else if (ballLost && multiExists && !allBallsLost) {
+      // Main ball lost but multi-balls still remaining, just reset main ball
+      Ball.reset(this.canvasWidth, this.canvasHeight);
     }
 
     // Check brick collision (main ball)
