@@ -9,7 +9,7 @@ const Levels = [
     pattern: null, // null means full grid
     brickTypes: null, // default: all normal
     fixedLives: false,
-    ballSpeed: 5,
+    ballSpeed: 3.5,
     powerupDropRate: 0.15
   },
 
@@ -29,7 +29,7 @@ const Levels = [
     ],
     brickTypes: null,
     fixedLives: false,
-    ballSpeed: 5,
+    ballSpeed: 3.5,
     powerupDropRate: 0.18
   },
 
@@ -41,7 +41,7 @@ const Levels = [
     pattern: null, // full grid with types below
     brickTypes: (r, c) => ((r + c) % 2 === 0) ? 'normal' : 'tough', // alternate
     fixedLives: false,
-    ballSpeed: 5.5,
+    ballSpeed: 4,
     powerupDropRate: 0.2
   },
 
@@ -63,7 +63,7 @@ const Levels = [
     ],
     brickTypes: null,
     fixedLives: false,
-    ballSpeed: 5.5,
+    ballSpeed: 4,
     powerupDropRate: 0.2
   },
 
@@ -88,7 +88,7 @@ const Levels = [
       return 'normal';
     },
     fixedLives: false,
-    ballSpeed: 6,
+    ballSpeed: 4.5,
     powerupDropRate: 0.22
   },
 
@@ -107,7 +107,7 @@ const Levels = [
     ],
     brickTypes: null,
     fixedLives: false,
-    ballSpeed: 5.5,
+    ballSpeed: 4,
     powerupDropRate: 0.2
   },
 
@@ -131,7 +131,7 @@ const Levels = [
       return 'normal';
     },
     fixedLives: false,
-    ballSpeed: 6,
+    ballSpeed: 4.5,
     powerupDropRate: 0.25
   },
 
@@ -148,7 +148,7 @@ const Levels = [
       return 'normal';                // Bottom 2 rows: normal
     },
     fixedLives: false,
-    ballSpeed: 6.5,
+    ballSpeed: 5,
     powerupDropRate: 0.25
   },
 
@@ -161,7 +161,7 @@ const Levels = [
     brickTypes: null,
     fixedLives: true,
     lives: 1,
-    ballSpeed: 8,
+    ballSpeed: 6,
     powerupDropRate: 0.35
   },
 
@@ -177,7 +177,7 @@ const Levels = [
       return 'tough';
     },
     fixedLives: false,
-    ballSpeed: 7,
+    ballSpeed: 5.5,
     powerupDropRate: 0.3
   },
 
@@ -202,7 +202,7 @@ const Levels = [
       return 'normal';
     },
     fixedLives: false,
-    ballSpeed: 6.5,
+    ballSpeed: 5,
     powerupDropRate: 0.25
   },
 
@@ -230,7 +230,7 @@ const Levels = [
       return 'normal';
     },
     fixedLives: false,
-    ballSpeed: 7,
+    ballSpeed: 5.5,
     powerupDropRate: 0.3
   },
 
@@ -253,7 +253,7 @@ const Levels = [
       return 'normal';
     },
     fixedLives: false,
-    ballSpeed: 5,
+    ballSpeed: 3.5,
     powerupDropRate: 0.25
   },
 
@@ -268,7 +268,7 @@ const Levels = [
       return 'tough';
     },
     fixedLives: false,
-    ballSpeed: 5.5,
+    ballSpeed: 4,
     powerupDropRate: 0.2
   },
 
@@ -290,7 +290,7 @@ const Levels = [
     ],
     brickTypes: null,
     fixedLives: false,
-    ballSpeed: 5.5,
+    ballSpeed: 4,
     powerupDropRate: 0.22
   },
 
@@ -314,7 +314,7 @@ const Levels = [
       return 'normal';
     },
     fixedLives: false,
-    ballSpeed: 6,
+    ballSpeed: 4.5,
     powerupDropRate: 0.22
   },
 
@@ -340,7 +340,7 @@ const Levels = [
       return 'normal';
     },
     fixedLives: false,
-    ballSpeed: 6,
+    ballSpeed: 4.5,
     powerupDropRate: 0.25
   },
 
@@ -365,7 +365,7 @@ const Levels = [
       return 'normal';
     },
     fixedLives: false,
-    ballSpeed: 6,
+    ballSpeed: 4.5,
     powerupDropRate: 0.22
   },
 
@@ -390,7 +390,7 @@ const Levels = [
       return 'normal';
     },
     fixedLives: false,
-    ballSpeed: 6.5,
+    ballSpeed: 5,
     powerupDropRate: 0.28
   },
 
@@ -415,7 +415,7 @@ const Levels = [
       return 'normal';
     },
     fixedLives: false,
-    ballSpeed: 6.5,
+    ballSpeed: 5,
     powerupDropRate: 0.28
   },
 
@@ -442,7 +442,7 @@ const Levels = [
       return 'normal';
     },
     fixedLives: false,
-    ballSpeed: 7,
+    ballSpeed: 5.5,
     powerupDropRate: 0.3
   },
 
@@ -459,7 +459,7 @@ const Levels = [
       return 'normal';
     },
     fixedLives: false,
-    ballSpeed: 7.5,
+    ballSpeed: 6,
     powerupDropRate: 0.35
   },
 
@@ -476,7 +476,7 @@ const Levels = [
     },
     fixedLives: true,
     lives: 2,
-    ballSpeed: 8,
+    ballSpeed: 6.5,
     powerupDropRate: 0.35
   },
 
@@ -518,7 +518,7 @@ const Levels = [
     },
     fixedLives: true,
     lives: 3,
-    ballSpeed: 8.5,
+    ballSpeed: 7,
     powerupDropRate: 0.4
   }
 ];

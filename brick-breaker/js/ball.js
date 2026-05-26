@@ -5,7 +5,7 @@ const Ball = {
   radius: 8,
   dx: 5,
   dy: -5,
-  speed: 5,
+  speed: 4,
   isMoving: false,
 
   init(canvasWidth, canvasHeight) {
